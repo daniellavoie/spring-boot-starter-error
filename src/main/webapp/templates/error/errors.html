@@ -1,0 +1,64 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<title>Spring Errors</title>
+		
+		<link th:replace="util/imports :: head" />
+	</head>
+	
+	<body ng-app="Errors">		
+		<div ng-controller="ErrorsController" ng-cloak class="container text-center">
+			<h1>Errors</h1>
+
+			<ul class="pager row text-center">
+				<li class="col-md-2">
+					&nbsp;
+					<a href="#" ng-if="!errorsPage.first" ng-click="changePage(errorsPage.number-1)">Précédente</a>
+				</li>
+				
+				<li class="col-md-8">Page {{errorsPage.number+1}} sur {{errorsPage.totalPages}}</li>
+				
+				<li class="col-md-2">
+					&nbsp;
+					<a href="#" ng-if="!errorsPage.last" ng-click="changePage(errorsPage.number+1)">Suivante</a>
+				</li>
+			</ul>
+			
+			<div class="notifications table-responsive">
+				<table class="panel panel-default table table-hover table-condensed text-center">
+					<thead>
+						<tr>
+							<th>Id</th>
+							<th>Timestamp</th>
+							<th>Ip</th>
+							<th>Hostname</th>
+							<th>Message</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr ng-repeat="error in errorsPage.content" ng-click="openError(error)">
+							<td>{{error.id}}</td>
+							<td>{{error.timestamp | date : "short"}}</td>
+							<td>{{error.ip}}</td>
+							<td>{{error.hostname}}</td>
+							<td>{{error.message}}</td>
+						<tr>
+						
+						<tr ng-if="notificationsPage.content.length == 0">
+							<td colspan="5">
+								No errors
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<script th:replace="util/imports :: scripts"></script>
+		<script th:src="@{/js/error/errors.js}"></script>
+	</body>
+</html>
